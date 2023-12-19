@@ -84,11 +84,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                       SizedBox(
                                         height: height * 0.02,
                                       ),
-                                      CircleAvatar(
-                                        radius: height * 0.05,
-                                        backgroundImage: NetworkImage(
-                                            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"),
-                                      ),
+                                      // CircleAvatar(
+                                      //   radius: height * 0.05,
+                                      //   backgroundImage: NetworkImage(
+                                      //       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"),
+                                      // ),
                                       SizedBox(
                                         height: 0.01,
                                       ),

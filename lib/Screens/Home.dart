@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../Constants.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -32,25 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xff176B87),
         toolbarHeight: height * 0.1,
+        centerTitle: true,
         title: Text(
           "MAVERICK2.0",
-          style: TextStyle(color: Colors.white, fontFamily: 'cursive', fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(height * 0.05),
           bottomRight: Radius.circular(height * 0.05),
         )),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: width * 0.05),
-            child: CircleAvatar(
-              radius: height * 0.03,
-              backgroundImage: NetworkImage(
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"),
-            ),
-          )
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.only(left: width * 0.05, right: width * 0.05),
@@ -103,19 +96,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleImageText(
-                      height, width, context, "Sweet\n(Madhura)", "assets/images/sweet.png"),
-                  CircleImageText(height, width, context, "Sour\n(Amla)", "assets/images/sour.png"),
+                      height, width, context, "Sweet\n(Madhura)", "assets/images/sweet.png", 0),
                   CircleImageText(
-                      height, width, context, "Pungent\n(Katu)", "assets/images/pungent.png"),
+                      height, width, context, "Sour\n(Amla)", "assets/images/sour.png", 1),
+                  CircleImageText(
+                      height, width, context, "Pungent\n(Katu)", "assets/images/pungent.png", 2),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CircleImageText(
-                      height, width, context, "Bitter\n(Tikta)", "assets/images/butter.png"),
+                      height, width, context, "Bitter\n(Tikta)", "assets/images/butter.png", 3),
                   CircleImageText(height, width, context, "Astringent\n(Kashaya)",
-                      "assets/images/astrigent.png"),
+                      "assets/images/astrigent.png", 4),
                 ],
               ),
               SizedBox(
@@ -141,11 +135,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleColorText(height, "Sweet", "75", Colors.red),
-                          CircleColorText(height, "Sour", "54", Colors.green),
-                          CircleColorText(height, "Pungent", "54", Colors.purpleAccent),
-                          CircleColorText(height, "Bitter", "54", Colors.blueGrey),
-                          CircleColorText(height, "Astringent", "54", Colors.cyanAccent),
+                          CircleColorText(height, "Sweet", "75", Color(0xff02E9B2)),
+                          CircleColorText(height, "Sour", "54", Color(0xff26B21A)),
+                          CircleColorText(height, "Pungent", "54", Color(0xff5ACDD4)),
+                          CircleColorText(height, "Bitter", "54", Color(0xff38B5FB)),
+                          CircleColorText(height, "Astringent", "54", Color(0xff578BF1)),
                         ],
                       )
                     : _loading
@@ -318,6 +312,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                   if (!show2) {
                     await Future.delayed(Duration(milliseconds: 500));
+                  }
+                  if (check) {
+                    check = !check;
+                  }
+                  if (expand) {
+                    expand = !expand;
                   }
                   setState(() {
                     show2 = !show2;
@@ -549,10 +549,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget CircleImageText(double height, double width, BuildContext context, String text, String img) {
+Widget CircleImageText(
+    double height, double width, BuildContext context, String text, String img, int index) {
   return InkWell(
     onTap: () {
-      ShowSetPin(height, width, context);
+      ShowSetPin(
+        height,
+        width,
+        context,
+        jsonData[index]["heading"]!,
+        jsonData[index]["subheading"]!,
+        jsonData[index]["desc"]!,
+      );
     },
     child: CircleAvatar(
       radius: height * 0.055,
@@ -568,21 +576,17 @@ Widget CircleImageText(double height, double width, BuildContext context, String
 
 Widget CircleColorText(double height, String text1, String text2, Color color) {
   return CircleAvatar(
-    radius: height * 0.035,
+    radius: height * 0.04,
     backgroundColor: color,
     child: Padding(
       padding: EdgeInsets.all(height * 0.007),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FittedBox(
-            child: Text(
-              text1,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.merienda(
-                color: Colors.white,
-              ),
-            ),
+          Text(
+            text1,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.merienda(color: Colors.white, fontSize: height * 0.012),
           ),
           Text(
             text2,
@@ -595,7 +599,8 @@ Widget CircleColorText(double height, String text1, String text2, Color color) {
   );
 }
 
-Future ShowSetPin(double height, double width, BuildContext context) {
+Future ShowSetPin(
+    double height, double width, BuildContext context, String title, String subTitle, String desc) {
   bool sent = false;
   return showDialog(
       context: context,
@@ -612,12 +617,12 @@ Future ShowSetPin(double height, double width, BuildContext context) {
               ),
               content: Container(
                 alignment: Alignment.center,
-                height: height * 0.4,
+                height: height * 0.45,
                 // width: width * 0.6,
                 child: Column(
                   children: [
                     Text(
-                      "Pungent",
+                      title,
                       style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: height * 0.026,
@@ -627,7 +632,7 @@ Future ShowSetPin(double height, double width, BuildContext context) {
                       height: height * 0.01,
                     ),
                     Text(
-                      "Energetics: Warming, Drying, Moving",
+                      subTitle,
                       style: GoogleFonts.poppins(
                           color: Color(0xff04364A),
                           fontSize: height * 0.02,
@@ -643,7 +648,7 @@ Future ShowSetPin(double height, double width, BuildContext context) {
                       height: height * 0.02,
                     ),
                     Text(
-                      "Stimulating, spicy plants increase circulation and wake up our senses. They help increase digestive action. Aromatics like rosemary and thyme are warming and drying, reflecting the Mediterranean ecosystem they come from. The energy of fire and air from pungent medicines is also specific for lungs, as these elements disperse energy in an outward direction. These herbs can be quite stimulating, so usually they are used in low doses.",
+                      desc,
                       textAlign: TextAlign.justify,
                       style: GoogleFonts.poppins(
                           color: Colors.white,

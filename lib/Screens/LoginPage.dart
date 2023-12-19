@@ -82,15 +82,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       //   height: 5,
                                       // ),
                                       SizedBox(
-                                        height: height * 0.02,
+                                        height: height * 0.04,
                                       ),
-                                      CircleAvatar(
-                                        radius: height * 0.05,
-                                        backgroundImage: NetworkImage(
-                                            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"),
-                                      ),
+                                      // CircleAvatar(
+                                      //   radius: height * 0.05,
+                                      //   backgroundImage: NetworkImage(
+                                      //       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"),
+                                      // ),
                                       SizedBox(
-                                        height: 0.01,
+                                        height: 0.1,
                                       ),
                                       Text(
                                         "LOGIN",
