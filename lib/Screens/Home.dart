@@ -16,7 +16,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _testEnd = false;
   bool _loading = false;
+  bool expand1 = false;
+  bool expand2 = false;
+  bool expand3 = false;
   bool expand = false;
+  bool show1 = false;
+  bool show2 = false;
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -194,35 +199,110 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: height * 0.02,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   setState(() {
-                    expand = !expand;
+                    expand1 = !expand1;
+                  });
+                  if (!show1) {
+                    await Future.delayed(Duration(milliseconds: 500));
+                  }
+                  setState(() {
+                    show1 = !show1;
                   });
                 },
                 child: AnimatedContainer(
-                  height: expand ? height * 0.2 : height * 0.07,
+                  height: expand1 ? height * 0.35 : height * 0.075,
                   width: width,
                   duration: Duration(milliseconds: 700),
                   decoration: BoxDecoration(
-                      color: !expand ? Color(0xffADE7E3) : Color(0xff8FD7D3),
+                      color: !expand1 ? Color(0xffADE7E3) : Color(0xff8FD7D3),
                       borderRadius: BorderRadius.circular(10)),
                   curve: Curves.fastOutSlowIn,
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Padding(
                     padding: EdgeInsets.all(height * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
                       children: [
-                        Text(
-                          "Recommended Result",
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: height * 0.02,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Recommended Result",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400,
+                                fontSize: height * 0.02,
+                              ),
+                            ),
+                            Icon(expand1
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_down_rounded),
+                          ],
                         ),
-                        Icon(expand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_rounded),
+                        Visibility(
+                          visible: show1,
+                          child: Container(
+                            width: width,
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                Container(
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFFFFFF),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Medicinal properties based on sourness are -",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: height * 0.018, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                Text(
+                                  "Anti-oxidant , improve heart health, digestive health, lower oxidative stress.",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: height * 0.018, color: Colors.black),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                Container(
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFFFFFF),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Medicinal properties based on bitterness are -",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: height * 0.018, color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                Text(
+                                  "Anti-inflammatory, Anti-oxidant, helps with digestive problem, anti-microbial, kidney health, balance blood sugar level.",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: height * 0.018, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -232,21 +312,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: height * 0.03,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   setState(() {
-                    expand = !expand;
+                    expand2 = !expand2;
+                  });
+                  if (!show2) {
+                    await Future.delayed(Duration(milliseconds: 500));
+                  }
+                  setState(() {
+                    show2 = !show2;
                   });
                 },
                 child: AnimatedContainer(
-                  height: expand && !check
+                  height: expand2 && !expand
                       ? height * 0.2
-                      : check
+                      : expand
                           ? height * 0.45
                           : height * 0.075,
                   width: width,
                   duration: Duration(milliseconds: 700),
                   decoration: BoxDecoration(
-                      color: !expand ? Color(0xffADE7E3) : Color(0xff8FD7D3),
+                      color: !expand2 ? Color(0xffADE7E3) : Color(0xff8FD7D3),
                       borderRadius: BorderRadius.circular(10)),
                   curve: Curves.fastOutSlowIn,
                   alignment: Alignment.topCenter,
@@ -266,13 +352,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: height * 0.02,
                               ),
                             ),
-                            Icon(expand
+                            Icon(expand2
                                 ? Icons.keyboard_arrow_up
                                 : Icons.keyboard_arrow_down_rounded),
                           ],
                         ),
                         Visibility(
-                          visible: expand,
+                          visible: show2,
                           child: Expanded(
                             child: TextFormField(
                               onChanged: (val) {
@@ -313,9 +399,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Visibility(
-                          visible: expand,
+                          visible: show2,
                           child: ElevatedButton(
                             onPressed: () async {
+                              setState(() {
+                                expand = !expand;
+                              });
+                              if (!check) await Future.delayed(Duration(milliseconds: 500));
                               setState(() {
                                 check = !check;
                               });
@@ -416,15 +506,15 @@ class _HomeScreenState extends State<HomeScreen> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    expand = !expand;
+                    expand3 = !expand3;
                   });
                 },
                 child: AnimatedContainer(
-                  height: expand ? height * 0.2 : height * 0.07,
+                  height: expand3 ? height * 0.2 : height * 0.07,
                   width: width,
                   duration: Duration(milliseconds: 700),
                   decoration: BoxDecoration(
-                      color: !expand ? Color(0xffADE7E3) : Color(0xff8FD7D3),
+                      color: !expand3 ? Color(0xffADE7E3) : Color(0xff8FD7D3),
                       borderRadius: BorderRadius.circular(10)),
                   curve: Curves.fastOutSlowIn,
                   alignment: Alignment.topCenter,
@@ -436,13 +526,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Test for Adulteration",
+                          "Diet Plan",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
                             fontSize: height * 0.02,
                           ),
                         ),
-                        Icon(expand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_rounded),
+                        Icon(expand3 ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_rounded),
                       ],
                     ),
                   ),
