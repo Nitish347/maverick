@@ -30,3 +30,14 @@ final jsonData = [
         "Astringent is recognized as a taste in Ayurveda, but in other systems it is considered more as a sensation rather than a flavor. Astringent tastes are often drying and can help in toning tissues. They may be used for conditions where there is excess moisture or looseness. Most herbs are slightly astringing due to the presence of tannins. These compounds are prevalent in plants because they are part of the plant’s immune response to disease."
   }
 ];
+List tasteList = [70, 50, 30];
+String sweetData =
+    "Anti-inflammatory, Anti-oxidant, manage diabetes, protect against cancer, Anti-bacterial, reduce cholestrol level, anti-fungal.";
+String bitterData =
+    "Anti-inflammatory, Anti-oxidant, helps with digestive problem, anti-microbial, kidney health, balance blood sugar level.";
+String sourData = "Anti-oxidant , improve heart health, digestive health, lower oxidative stress.";
+final mpData = {
+  "sweet": sweetData,
+  "sour": sourData,
+  "bitter": bitterData,
+};

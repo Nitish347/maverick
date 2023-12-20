@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -37,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
     "Bitter": 0,
     "Astringent": 0,
   };
+  String taste = "";
+  String recom = "";
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -163,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 _loading = true;
                               });
                               // await Future.delayed(Duration(seconds: 2));
-                              var data = await APIServices().getResponse(7.9, 46);
+                              var data = await APIServices().getResponse(12, 46);
 
                               setState(() {
                                 bitter = data["bitter"].toString().substring(0, 5);
@@ -262,9 +265,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () async {
+                  int maxi = tasteList.reduce((curr, next) => curr > next ? curr : next);
+                  // var data = await APIServices().getRecommendation(20, 50, 30);
+                  int index = tasteList.indexOf(maxi);
+                  print(index);
+                  List ls = ["sweet", "sour", "bitter"];
                   setState(() {
                     expand1 = !expand1;
+                    taste = ls[index];
+                    print(taste);
+                    recom = mpData[taste].toString();
+                    print(recom);
                   });
+
                   if (!show1) {
                     await Future.delayed(Duration(milliseconds: 500));
                   }
@@ -322,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "Medicinal properties based on sourness are -",
+                                      "Medicinal properties based on $taste are -",
                                       style: GoogleFonts.poppins(
                                           fontSize: height * 0.018, color: Colors.black),
                                     ),
@@ -332,34 +345,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: height * 0.005,
                                 ),
                                 Text(
-                                  "Anti-oxidant , improve heart health, digestive health, lower oxidative stress.",
+                                  recom,
                                   style: GoogleFonts.poppins(
                                       fontSize: height * 0.018, color: Colors.black),
                                 ),
                                 SizedBox(
                                   height: height * 0.005,
-                                ),
-                                Container(
-                                  width: width,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffFFFFFF),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Medicinal properties based on bitterness are -",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: height * 0.018, color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.005,
-                                ),
-                                Text(
-                                  "Anti-inflammatory, Anti-oxidant, helps with digestive problem, anti-microbial, kidney health, balance blood sugar level.",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: height * 0.018, color: Colors.black),
                                 ),
                               ],
                             ),
