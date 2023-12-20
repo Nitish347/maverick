@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class APIServices {
-  Future<dynamic> getResponse() async {
+  Future<dynamic> getResponse(double ph_val, double glu) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', Uri.parse('http://localhost:3000/getResponse'));
-    request.body = json.encode({"ph_val": 7.9, "glu_level": 46});
+    request.body = json.encode({"ph_val": ph_val, "glu_level": glu});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();

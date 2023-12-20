@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:maverick/API%20_services/API.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import '../Constants.dart';
 
@@ -29,6 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String bitter = "";
   String sour = "";
   String sweet = "";
+  Map<String, double> dataMap = {
+    "Sweet": 0,
+    "Sour": 0,
+    "Pungent": 0,
+    "Bitter": 0,
+    "Astringent": 0,
+  };
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -155,13 +163,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 _loading = true;
                               });
                               // await Future.delayed(Duration(seconds: 2));
-                              var data = await APIServices().getResponse();
-                              print(data);
-                              print(data["bitter"].toString());
+                              var data = await APIServices().getResponse(7.9, 46);
+
                               setState(() {
                                 bitter = data["bitter"].toString().substring(0, 5);
                                 sour = data["sour"].toString().substring(0, 5);
                                 sweet = data["sweet"].toString().substring(0, 5);
+                                dataMap = {
+                                  "Sweet": double.parse(sweet),
+                                  "Sour": double.parse(sour),
+                                  "Pungent": 0,
+                                  "Bitter": double.parse(bitter),
+                                  "Astringent": 0,
+                                };
                               });
                               // await NetWorkHandler.postData();
                               setState(() {
@@ -179,6 +193,47 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.poppins(color: Colors.black),
                             ),
                           ),
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  Visibility(
+                      visible: _testEnd,
+                      child: PieChart(
+                        dataMap: dataMap,
+                        animationDuration: Duration(milliseconds: 800),
+                        chartLegendSpacing: 32,
+                        chartRadius: MediaQuery.of(context).size.width / 3.2,
+                        // colorList: colorList,
+                        initialAngleInDegree: 0,
+                        chartType: ChartType.ring,
+                        ringStrokeWidth: 32,
+                        centerText: "HYBRID",
+                        legendOptions: LegendOptions(
+                          showLegendsInRow: false,
+                          legendPosition: LegendPosition.right,
+                          showLegends: true,
+                          // legendShape: _BoxShape.circle,
+                          legendTextStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        chartValuesOptions: ChartValuesOptions(
+                          showChartValueBackground: true,
+                          showChartValues: true,
+                          showChartValuesInPercentage: false,
+                          showChartValuesOutside: false,
+                          decimalPlaces: 1,
+                        ),
+                        // gradientList: ---To add gradient colors---
+                        // emptyColorGradient: ---Empty Color gradient---
+                      )),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                ],
               ),
               SizedBox(
                 height: height * 0.02,
