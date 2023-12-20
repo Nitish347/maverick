@@ -38,8 +38,28 @@ class _HomeScreenState extends State<HomeScreen> {
     "Bitter": 0,
     "Astringent": 0,
   };
+  String findKeyWithMaxValue(Map<String, double> dataMap) {
+    if (dataMap.isEmpty) {
+      // Handle the case where the map is empty
+      throw Exception("The map is empty.");
+    }
+
+    String maxKey = dataMap.keys.first;
+
+    dataMap.forEach((key, value) {
+      if (value > dataMap[maxKey]!) {
+        maxKey = key;
+      }
+    });
+
+    return maxKey;
+  }
+
   String taste = "";
   String recom = "";
+  double swt = 0;
+  double sr = 0;
+  double bit = 0;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -179,6 +199,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Bitter": double.parse(bitter),
                                   "Astringent": 0,
                                 };
+                                swt = double.parse(sweet);
+                                sr = double.parse(sour);
+                                bit = double.parse(bitter);
                               });
                               // await NetWorkHandler.postData();
                               setState(() {
@@ -265,14 +288,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               InkWell(
                 onTap: () async {
-                  int maxi = tasteList.reduce((curr, next) => curr > next ? curr : next);
-                  // var data = await APIServices().getRecommendation(20, 50, 30);
-                  int index = tasteList.indexOf(maxi);
-                  print(index);
-                  List ls = ["sweet", "sour", "bitter"];
+                  // List tasteList = [swt, sr, bit];
+                  // int maxi = int.parse(
+                  //     tasteList.reduce((curr, next) => curr > next ? curr : next).toString());
+                  // // var data = await APIServices().getRecommendation(20, 50, 30);
+                  // // int  maxi1 = int.parse(maxi.toString());
+                  // int index = tasteList.indexOf(maxi);
+                  String dt = findKeyWithMaxValue(dataMap);
+
                   setState(() {
                     expand1 = !expand1;
-                    taste = ls[index];
+                    taste = dt;
                     print(taste);
                     recom = mpData[taste].toString();
                     print(recom);
