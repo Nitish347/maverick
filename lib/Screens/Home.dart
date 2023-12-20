@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:maverick/API%20_services/API.dart';
 
 import '../Constants.dart';
 
@@ -25,6 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool show1 = false;
   bool show2 = false;
   bool check = false;
+  String bitter = "";
+  String sour = "";
+  String sweet = "";
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -135,10 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleColorText(height, "Sweet", "75", Color(0xff02E9B2)),
-                          CircleColorText(height, "Sour", "54", Color(0xff26B21A)),
-                          CircleColorText(height, "Pungent", "54", Color(0xff5ACDD4)),
-                          CircleColorText(height, "Bitter", "54", Color(0xff38B5FB)),
+                          CircleColorText(height, "Sweet", sweet.toString(), Color(0xff02E9B2)),
+                          CircleColorText(height, "Sour", sour.toString(), Color(0xff26B21A)),
+                          CircleColorText(height, "Pungent", "0", Color(0xff5ACDD4)),
+                          CircleColorText(height, "Bitter", bitter.toString(), Color(0xff38B5FB)),
                           CircleColorText(height, "Astringent", "54", Color(0xff578BF1)),
                         ],
                       )
@@ -150,7 +154,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               setState(() {
                                 _loading = true;
                               });
-                              await Future.delayed(Duration(seconds: 2));
+                              // await Future.delayed(Duration(seconds: 2));
+                              var data = await APIServices().getResponse();
+                              print(data);
+                              print(data["bitter"].toString());
+                              setState(() {
+                                bitter = data["bitter"].toString().substring(0, 5);
+                                sour = data["sour"].toString().substring(0, 5);
+                                sweet = data["sweet"].toString().substring(0, 5);
+                              });
+                              // await NetWorkHandler.postData();
                               setState(() {
                                 _loading = false;
                               });
